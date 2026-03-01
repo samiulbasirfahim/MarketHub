@@ -1,37 +1,41 @@
+import { NavigatorScreenParams } from '@react-navigation/native';
+
 export type RootStackParamList = {
-    Auth: undefined;
-    App: undefined;
-    Others: undefined;
+    Auth: NavigatorScreenParams<AuthStackParamList>;
+    App: NavigatorScreenParams<AppStackParamList>;
+    Others: NavigatorScreenParams<OthersStackParamList>;
 };
 
 export type AuthStackParamList = {
     Login: undefined;
-    Register: undefined;
-    Forget_Password: undefined;
+    Register: NavigatorScreenParams<RegisterStackParamList>;
+    ForgotPassword: NavigatorScreenParams<ForgotPasswordStackParamList>;
 };
 
 export type RegisterStackParamList = {
-    Login: undefined;
-    Verfiy_Otp: { email: string };
+    Register: undefined;
+    VerifiyOtp: { email: string };
 };
 
-export type ResetPasswordStackParamList = {
-    Email_Screen: undefined;
-    Verfiy_Otp: { email: string };
-    Set_Password: { email: string; otp: string };
+export type ForgotPasswordStackParamList = {
+    EmailScreen: undefined;
+    VerifiyOtp: { email: string };
+    SetPassword: { email: string; otp: string };
 };
 
 export type AppStackParamList = {
-    AppTab: undefined;
-    OthersStack: undefined;
+    AppTab: NavigatorScreenParams<AppTabParamList>;
+    OthersStack: NavigatorScreenParams<AppOthersStackParamList>;
 };
 
-export type AppTabParamList = {};
+export type AppTabParamList = {
+    HomeTab: undefined;
+};
 
 export type AppOthersStackParamList = {};
 
 export type OthersStackParamList = {
-    Terms_Condition: undefined;
-    Privacy_Policy: undefined;
-    Help_Support: undefined;
+    TermsCondition: undefined;
+    PrivacyPolicy: undefined;
+    HelpSupport: undefined;
 };
