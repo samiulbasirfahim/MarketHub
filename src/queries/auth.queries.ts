@@ -9,6 +9,9 @@ export function useVerifyToken() {
     return useQuery({
         queryKey: queryKeys.auth.verify(),
         queryFn: async () => {
+            await new Promise<void>(resolve => {
+                setTimeout(resolve, 100);
+            });
             const data = await authService.refreshTokens(refreshToken!);
             setTokens(data);
             return data;

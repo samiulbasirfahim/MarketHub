@@ -8,8 +8,15 @@ export type RootStackParamList = {
 
 export type AuthStackParamList = {
     Login: undefined;
+    OnboardingScreens: NavigatorScreenParams<OnboardingScreensStackParamList>;
     Register: NavigatorScreenParams<RegisterStackParamList>;
     ForgotPassword: NavigatorScreenParams<ForgotPasswordStackParamList>;
+};
+
+export type OnboardingScreensStackParamList = {
+    OnboardingScreen1: undefined;
+    OnboardingScreen2: undefined;
+    OnboardingScreen3: undefined;
 };
 
 export type RegisterStackParamList = {

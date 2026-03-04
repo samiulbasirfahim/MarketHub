@@ -1,11 +1,11 @@
 import { z, treeifyError } from 'zod';
-import Env from 'react-native-config';
+import {BASE_URL} from "@env";
 
 const envSchema = z.object({
-    BASE_URL: z.url('Invalid Url'),
+    BASE_URL: z.url('Invalid BASE_URL: must be a valid URL'),
 });
 
-const parsedEnv = envSchema.safeParse(Env);
+const parsedEnv = envSchema.safeParse({ BASE_URL });
 
 if (!parsedEnv.success) {
     console.error(

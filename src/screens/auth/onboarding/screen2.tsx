@@ -1,0 +1,7 @@
+import OnboardingBackground from '@/components/common/onboarding-bg';
+import { View } from 'react-native';
+
+export default function OnboardingScreen() {
+    return <View>
+    </View>;
+}

@@ -6,6 +6,6 @@ export function createStackNavigator<T extends ParamListBase>() {
     return createNativeStackNavigator<T>();
 }
 
-export function craeteTabNavigator<T extends ParamListBase>() {
+export function createTabNavigator<T extends ParamListBase>() {
     return createMaterialTopTabNavigator<T>();
 }

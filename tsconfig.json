@@ -4,6 +4,9 @@
         "types": [
             "jest"
         ],
+        "typesRoots": [
+            "./src/types"
+        ],
         "baseUrl": ".",
         "paths": {
             "@/*": [

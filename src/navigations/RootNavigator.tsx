@@ -27,7 +27,7 @@ export default function RootNavigator() {
                 {isAuthenticated ? (
                     <Root.Screen
                         name="App"
-                        component={require('@/screens/main').default}
+                        component={require('./app/AppNavigator').default}
                     />
                 ) : (
                     <Root.Screen

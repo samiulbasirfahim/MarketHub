@@ -5,7 +5,15 @@ const Stack = createNativeStackNavigator<AuthStackParamList>();
 
 export default function AuthNavigator() {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+            }}
+        >
+            <Stack.Screen
+                name="OnboardingScreens"
+                component={require('@/navigations/auth/OnboardingNavigator').default}
+            />
             <Stack.Screen
                 name="Login"
                 component={require('@/screens/auth/login').default}
