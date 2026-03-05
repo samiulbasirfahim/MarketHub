@@ -108,6 +108,7 @@ const variantStyles: { [key in Variant]: TextStyle } = {
         fontSize: 15,
         lineHeight: 24,
         fontWeight: '500',
+        textDecorationLine: 'underline'
     },
     code: {
         color: colors.text,

@@ -1,10 +1,11 @@
-import SplashScreen from '@/screens/slash-screen';
+import SplashScreen from '@/screens/splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RootStackParamList } from './types';
 import { useAuthStore } from '@/store';
 import { useEffect } from 'react';
 import { useVerifyToken } from '@/queries/auth.queries';
+import { navigationRef } from './navigationRef';
 
 const Root = createNativeStackNavigator<RootStackParamList>();
 
@@ -22,7 +23,7 @@ export default function RootNavigator() {
     if (isInitializing) return <SplashScreen />;
 
     return (
-        <NavigationContainer>
+        <NavigationContainer ref={navigationRef}>
             <Root.Navigator screenOptions={{ headerShown: false }}>
                 {isAuthenticated ? (
                     <Root.Screen

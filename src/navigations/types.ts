@@ -1,4 +1,5 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
     Auth: NavigatorScreenParams<AuthStackParamList>;
@@ -46,3 +47,5 @@ export type OthersStackParamList = {
     PrivacyPolicy: undefined;
     HelpSupport: undefined;
 };
+
+export type Navigation = NativeStackNavigationProp<RootStackParamList>;
