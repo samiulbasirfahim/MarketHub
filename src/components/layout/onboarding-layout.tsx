@@ -8,13 +8,14 @@ import Animated, {
     interpolate,
     Extrapolation,
     SharedValue,
+    FadeOutRight,
+    FadeInRight,
 } from 'react-native-reanimated';
 import { ChevronRight } from 'lucide-react-native';
 import { colors } from '@/constants/colors';
 import { useEffect } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthStackParamList } from '@/navigations';
-import OnboardingBackground from '../common/onboarding-bg';
 
 const PILL_WIDTH_ACTIVE = 24;
 const PILL_WIDTH_INACTIVE = 8;
@@ -85,17 +86,20 @@ export function OnboardingLayout({
 
     return (
         <>
-            <View style={styles.backgroundContainer} pointerEvents="none">
-                <OnboardingBackground />
-            </View>
-            <View style={styles.skipButton}>
-                <Button
-                    style={styles.skipButtonInner}
-                    label="Skip"
-                    variant="primary"
-                    onPress={handleLast}
-                />
-            </View>
+            {!isLast && (
+                <Animated.View
+                    entering={FadeInRight.delay(100).duration(200)}
+                    exiting={FadeOutRight.delay(100).duration(200)}
+                    style={styles.skipButton}
+                >
+                    <Button
+                        style={styles.skipButtonInner}
+                        label="Skip"
+                        variant="primary"
+                        onPress={handleLast}
+                    />
+                </Animated.View>
+            )}
             <View style={styles.container} pointerEvents="box-none">
                 <View style={styles.pills} pointerEvents="none">
                     {state.routes.map((_, index) => (
@@ -144,9 +148,4 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 999,
         borderBottomLeftRadius: 999,
     },
-
-    backgroundContainer: {
-        position: 'absolute',
-        inset: 0,
-    }
 });

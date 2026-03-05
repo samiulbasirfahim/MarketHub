@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
         height: 200,
     },
     container: {
-        flex: 1,
+        ...StyleSheet.absoluteFill,
+        zIndex: 0,
     },
-})
+});
