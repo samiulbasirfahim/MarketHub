@@ -22,7 +22,8 @@ export default function OnboardingIconContainer({
 
 const styles = StyleSheet.create({
     container: {
-        padding: 40,
+        height: 160,
+        width: 160,
         borderRadius: 12,
         alignItems: 'center',
         justifyContent: 'center',
