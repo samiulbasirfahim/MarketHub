@@ -15,6 +15,7 @@ type Variant =
     | 'caption'
     | 'overline'
     | 'link'
+    | 'logo'
     | 'code';
 
 type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
@@ -114,6 +115,13 @@ const variantStyles: { [key in Variant]: TextStyle } = {
         lineHeight: 20,
         fontWeight: '400',
         fontFamily: 'monospace',
+    },
+    logo: {
+        color: colors.primary,
+        fontSize: 32,
+        lineHeight: 36,
+        fontWeight: '600',
+        fontFamily: 'Arvo-Bold',
     },
 };
 
