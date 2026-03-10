@@ -3,24 +3,27 @@ import { Button, Text } from '@/components/ui';
 import OtpInput from '@/components/ui/OtpInput';
 import { router } from '@/navigations/router';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { ForgotPasswordStackParamList } from '@/navigations/types';
+import { RegisterStackParamList } from '@/navigations/types';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-type Props = NativeStackScreenProps<ForgotPasswordStackParamList, 'VerifiyOtp'>;
+type Props = NativeStackScreenProps<RegisterStackParamList, 'VerifiyOtp'>;
 
 export default function VerifyOtp({ route }: Props) {
     const { email } = route.params;
     const [otp, setOtp] = useState('');
 
     return (
-        <Layout>
-            <Text variant="secondary" centered>
-                Check Your Email
+        <Layout centered>
+            <View style={sts.topSection} />
+
+            <Text variant="primary" style={{ fontSize: 26, lineHeight: 34 }}>
+                Verify Your Email
             </Text>
-            <Text variant="body">
+            <Text variant="text" style={{ marginTop: 8 }}>
                 We sent a 4-digit verification code to{' '}
-                <Text variant="bodyBold">{email}</Text>. Enter the code below.
+                <Text variant="bodyBold">{email}</Text>. Please enter it below to
+                activate your account.
             </Text>
 
             <View style={sts.otpWrapper}>
@@ -31,23 +34,15 @@ export default function VerifyOtp({ route }: Props) {
                 style={{ marginTop: 32, width: '100%' }}
                 disabled={otp.length < 4}
                 onPress={() => {
-                    router.push('Auth', {
-                        screen: 'ForgotPassword',
-                        params: {
-                            screen: 'SetPassword',
-                            params: { email, otp },
-                        },
-                    });
+                    router.replace('Auth', { screen: 'Login' });
                 }}
-                label="Verify Code"
+                label="Verify & Continue"
                 fullWidth
             />
 
-            <Text centered variant="body" style={{ width: '100%' }}>
+            <Text style={{ marginTop: 16 }}>
                 Didn't receive the code?{' '}
-                <Text variant="link" onPress={() => { }}>
-                    Resend
-                </Text>
+                <Text variant="link" onPress={() => {}}>Resend</Text>
             </Text>
         </Layout>
     );
@@ -55,5 +50,5 @@ export default function VerifyOtp({ route }: Props) {
 
 const sts = StyleSheet.create({
     topSection: { height: 60 },
-    otpWrapper: { width: '80%', alignSelf: 'center', marginTop: 16 },
+    otpWrapper: { width: '80%', alignSelf: 'center', marginTop: 32 },
 });

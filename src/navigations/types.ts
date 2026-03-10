@@ -38,11 +38,38 @@ export type AppStackParamList = {
 
 export type AppTabParamList = {
     HomeTab: undefined;
+    SettingsTab: undefined;
+    SearchTab: undefined;
+    OrderTab: undefined;
 };
 
-export type AppOthersStackParamList = {};
+export type AppOthersStackParamList = {
+    NotificationScreen: undefined;
+    HomeSubScreens: NavigatorScreenParams<HomeSubScreensStackParamList>;
+    SettingsSubScreens: NavigatorScreenParams<SettingsSubScreensStackParamList>;
+    OrderDetails: { orderId: string };
+};
+
+export type HomeSubScreensStackParamList = {
+    AllCategories: undefined;
+    AllPopularProducts: undefined;
+    BestDeals: undefined;
+    AllVendors: undefined;
+    VendorDetails: { vendorId: string };
+    ProductDetails: { productId: string };
+    PerCategoryProducts: { categoryId: string; categoryName: string };
+    Cart: undefined;
+};
+
+export type SettingsSubScreensStackParamList = {
+    Profile: undefined;
+    SavedAddresses: undefined;
+    MyWishList: undefined;
+    MyReviews: undefined;
+};
 
 export type OthersStackParamList = {
+    Notifications: undefined;
     TermsCondition: undefined;
     PrivacyPolicy: undefined;
     HelpSupport: undefined;

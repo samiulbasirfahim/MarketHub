@@ -24,8 +24,8 @@ export default function Switch({ value, onValueChange, disabled }: Props) {
 
     React.useEffect(() => {
         progress.value = withSpring(value ? 1 : 0, {
-            damping: 15,
-            stiffness: 300,
+            damping: 30,
+            stiffness: 400,
         });
     }, [value]);
 
@@ -33,7 +33,7 @@ export default function Switch({ value, onValueChange, disabled }: Props) {
         backgroundColor: interpolateColor(
             progress.value,
             [0, 1],
-            [colors.surface, colors.background],
+            [colors.surface, colors.primary],
         ),
         opacity: disabled ? 0.5 : 1,
     }));
@@ -70,8 +70,8 @@ const styles = StyleSheet.create({
         width: THUMB_SIZE,
         height: THUMB_SIZE,
         borderRadius: THUMB_SIZE / 2,
-        backgroundColor: colors.surface,
-        shadowColor: colors.border,
+        backgroundColor: colors.background,
+        shadowColor: colors.primary,
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.15,
         shadowRadius: 2,

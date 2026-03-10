@@ -36,6 +36,10 @@ export default function RootNavigator() {
                         component={require('./auth/AuthNavigator').default}
                     />
                 )}
+                <Root.Screen
+                    name="Others"
+                    component={require('./others/OthersNavigator').default}
+                />
             </Root.Navigator>
         </NavigationContainer>
     );

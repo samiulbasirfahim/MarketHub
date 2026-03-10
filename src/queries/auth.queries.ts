@@ -16,7 +16,8 @@ export function useVerifyToken() {
             setTokens(data);
             return data;
         },
-        enabled: !!refreshToken,
+        enabled: false,
+        // enabled: !!refreshToken,
         staleTime: 0,
         gcTime: 0,
         retry: 1,
