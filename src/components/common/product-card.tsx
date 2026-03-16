@@ -24,17 +24,13 @@ export default function ProductCard({ product, onPress, style }: Props) {
     const discount =
         product.originalPrice && product.originalPrice > product.price
             ? Math.round(
-                  ((product.originalPrice - product.price) /
-                      product.originalPrice) *
-                      100,
-              )
+                ((product.originalPrice - product.price) / product.originalPrice) *
+                100,
+            )
             : null;
 
     return (
-        <Pressable
-            style={[styles.card, style]}
-            onPress={() => onPress(product)}
-        >
+        <Pressable style={[styles.card, style]} onPress={() => onPress(product)}>
             <View style={styles.imageWrapper}>
                 {discount !== null && (
                     <View style={styles.badge}>
@@ -61,11 +57,7 @@ export default function ProductCard({ product, onPress, style }: Props) {
                 </Text>
 
                 <View style={styles.ratingRow}>
-                    <Star
-                        size={12}
-                        color={colors.warning}
-                        fill={colors.warning}
-                    />
+                    <Star size={12} color={colors.warning} fill={colors.warning} />
                     <Text variant="caption" style={styles.ratingText}>
                         {product.rating.toFixed(1)} ({product.reviewCount})
                     </Text>
@@ -76,10 +68,7 @@ export default function ProductCard({ product, onPress, style }: Props) {
                         ${product.price.toFixed(2)}
                     </Text>
                     {product.originalPrice && (
-                        <Text
-                            variant="caption"
-                            style={styles.originalPrice}
-                        >
+                        <Text variant="caption" style={styles.originalPrice}>
                             ${product.originalPrice.toFixed(2)}
                         </Text>
                     )}
@@ -109,9 +98,12 @@ const styles = StyleSheet.create({
     },
     badge: {
         position: 'absolute',
-        top: 8,
-        left: 8,
+        top: 14,
+        left: 0,
         backgroundColor: colors.error,
+        borderLeftWidth: 0,
+        borderBottomLeftRadius: 0,
+        borderTopLeftRadius: 0,
         borderRadius: 6,
         paddingHorizontal: 6,
         paddingVertical: 2,

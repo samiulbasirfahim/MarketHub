@@ -12,30 +12,28 @@ import { colors } from '@/constants/colors';
 import { Search } from 'lucide-react-native';
 import Text from '@/components/ui/Text';
 import { router } from '@/navigations/router';
+import HeaderBackButton from '@/components/common/header-back-button';
+import { ProductRow } from '@/components/common/home-product-row';
+import { MOCK_POPULAR_PRODUCTS } from '@/constants/mock-data';
 
 const RECENT_SEARCHES = ['Fashion', 'Male Cloth', 'Watches', 'Phone'];
 const TRENDING = ['Keyboard', 'Accesories', 'Shoes', 'baby doll', 'Ipad'];
 
-type Chip = { label: string; trending?: boolean };
+type Chip = { label: string; trending?: boolean; onPress?: () => void };
 
-function Chip({ label, trending }: Chip) {
+function Chip({ label, trending, onPress }: Chip) {
     return (
-        <View
-            style={[
-                styles.chip,
-                trending && styles.chipTrending,
-            ]}
+        <Pressable
+            onPress={onPress ? onPress : () => { }}
+            style={[styles.chip, trending && styles.chipTrending]}
         >
             <Text
                 variant="caption"
-                style={[
-                    styles.chipLabel,
-                    trending && styles.chipLabelTrending,
-                ]}
+                style={[styles.chipLabel, trending && styles.chipLabelTrending]}
             >
                 {label}
             </Text>
-        </View>
+        </Pressable>
     );
 }
 
@@ -46,17 +44,8 @@ export default function SearchScreen() {
 
     return (
         <View style={[styles.screen, { paddingTop: top }]}>
-            {/* Header */}
             <View style={styles.header}>
-                <Pressable
-                    onPress={() => router.goBack()}
-                    style={styles.backBtn}
-                    hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                >
-                    <Text variant="body" style={{ color: colors.primary }}>
-                        ‹
-                    </Text>
-                </Pressable>
+                <HeaderBackButton canGoBack={router.canGoback()} />
 
                 <View style={styles.inputWrapper}>
                     <Search size={16} color={colors.textTertiary} />
@@ -78,44 +67,64 @@ export default function SearchScreen() {
                 </View>
 
                 <Pressable style={styles.filterBtn}>
-                    <SlidersHorizontal
-                        size={18}
-                        color={colors.text}
-                        strokeWidth={2}
-                    />
+                    <SlidersHorizontal size={18} color={colors.text} strokeWidth={2} />
                 </Pressable>
             </View>
 
             <ScrollView
-                contentContainerStyle={styles.body}
                 keyboardShouldPersistTaps="handled"
                 showsVerticalScrollIndicator={false}
             >
-                {/* Recent */}
-                <View style={styles.section}>
-                    <View style={styles.sectionTitle}>
-                        <Clock size={16} color={colors.textSecondary} />
-                        <Text variant="bodyBold">Recent Searches</Text>
-                    </View>
-                    <View style={styles.chips}>
-                        {RECENT_SEARCHES.map(s => (
-                            <Chip key={s} label={s} />
-                        ))}
-                    </View>
-                </View>
+                {query.length === 0 ? (
+                    <View style={styles.body}>
+                        <View style={styles.section}>
+                            <View style={styles.sectionTitle}>
+                                <Clock size={16} color={colors.textSecondary} />
+                                <Text variant="bodyBold">Recent Searches</Text>
+                            </View>
+                            <View style={styles.chips}>
+                                {RECENT_SEARCHES.map(s => (
+                                    <Chip
+                                        key={s}
+                                        label={s}
+                                        onPress={() => {
+                                            setQuery(s);
+                                        }}
+                                    />
+                                ))}
+                            </View>
+                        </View>
 
-                {/* Trending */}
-                <View style={styles.section}>
-                    <View style={styles.sectionTitle}>
-                        <TrendingUp size={16} color={colors.primary} />
-                        <Text variant="bodyBold">Trending Now</Text>
+                        <View style={styles.section}>
+                            <View style={styles.sectionTitle}>
+                                <TrendingUp size={16} color={colors.primary} />
+                                <Text variant="bodyBold">Trending Now</Text>
+                            </View>
+                            <View style={styles.chips}>
+                                {TRENDING.map(s => (
+                                    <Chip
+                                        key={s}
+                                        label={s}
+                                        trending
+                                        onPress={() => {
+                                            setQuery(s);
+                                        }}
+                                    />
+                                ))}
+                            </View>
+                        </View>
                     </View>
-                    <View style={styles.chips}>
-                        {TRENDING.map(s => (
-                            <Chip key={s} label={s} trending />
-                        ))}
+                ) : (
+                    <View style={styles.section}>
+                        <View
+                            style={[styles.sectionTitle, { padding: 20, paddingBottom: 0 }]}
+                        >
+                            <Clock size={16} color={colors.textSecondary} />
+                            <Text variant="bodyBold">Results of "{query}"</Text>
+                        </View>
+                        <ProductRow products={MOCK_POPULAR_PRODUCTS.slice(0, 3)} />
                     </View>
-                </View>
+                )}
             </ScrollView>
         </View>
     );

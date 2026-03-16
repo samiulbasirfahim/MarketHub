@@ -13,6 +13,11 @@ export default function SettingsSubScreensNavigator() {
                 options={{ title: 'Profile' }}
             />
             <Stack.Screen
+                name="PersonalInformation"
+                component={require('@/screens/app/settings/personal-information').default}
+                options={{ title: 'Personal Information' }}
+            />
+            <Stack.Screen
                 name="SavedAddresses"
                 component={require('@/screens/app/settings/saved-addresses').default}
                 options={{ title: 'Saved Addresses' }}

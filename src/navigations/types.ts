@@ -40,14 +40,18 @@ export type AppTabParamList = {
     HomeTab: undefined;
     SettingsTab: undefined;
     SearchTab: undefined;
-    OrderTab: undefined;
+    OrderTab: NavigatorScreenParams<OrderStackParamList>;
+};
+
+export type OrderStackParamList = {
+    OrdersTab: undefined;
+    OrderDetails: { orderId: string };
 };
 
 export type AppOthersStackParamList = {
     NotificationScreen: undefined;
     HomeSubScreens: NavigatorScreenParams<HomeSubScreensStackParamList>;
     SettingsSubScreens: NavigatorScreenParams<SettingsSubScreensStackParamList>;
-    OrderDetails: { orderId: string };
 };
 
 export type HomeSubScreensStackParamList = {
@@ -63,6 +67,7 @@ export type HomeSubScreensStackParamList = {
 
 export type SettingsSubScreensStackParamList = {
     Profile: undefined;
+    PersonalInformation: undefined;
     SavedAddresses: undefined;
     MyWishList: undefined;
     MyReviews: undefined;

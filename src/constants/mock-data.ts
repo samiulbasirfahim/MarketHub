@@ -177,3 +177,67 @@ export const MOCK_BEST_DEALS: Product[] = [
         originalPrice: 15.99,
     },
 ];
+
+export type Vendor = {
+    id: string;
+    name: string;
+    since: number;
+    productCount: number;
+    rating: number;
+    reviewCount: number;
+    image: string;
+};
+
+export const MOCK_VENDORS: Vendor[] = [
+    {
+        id: 'v1',
+        name: 'Just Look',
+        since: 2023,
+        productCount: 6,
+        rating: 4.5,
+        reviewCount: 100,
+        image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400',
+    },
+    {
+        id: 'v2',
+        name: 'Innovative',
+        since: 2023,
+        productCount: 15,
+        rating: 4.5,
+        reviewCount: 200,
+        image: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400',
+    },
+    {
+        id: 'v3',
+        name: 'Creative',
+        since: 2023,
+        productCount: 8,
+        rating: 4.5,
+        reviewCount: 150,
+        image: 'https://images.unsplash.com/photo-1642737651261-a0db5f76f4f5?w=400',
+    },
+    {
+        id: 'v4',
+        name: 'Explore More',
+        since: 2023,
+        productCount: 8,
+        rating: 4.5,
+        reviewCount: 150,
+        image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400',
+    },
+];
+
+export type VendorCategory = {
+    id: string;
+    label: string;
+};
+
+export const MOCK_VENDOR_CATEGORIES: VendorCategory[] = [
+    { id: 'c1', label: 'Phone' },
+    { id: 'c2', label: 'Laptop' },
+    { id: 'c3', label: 'Airpods' },
+    { id: 'c4', label: 'Cable' },
+    { id: 'c5', label: 'Earphone' },
+    { id: 'c6', label: 'Hard disk' },
+    { id: 'c7', label: 'Essentials Gadget' },
+];

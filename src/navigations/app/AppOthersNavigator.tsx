@@ -22,11 +22,6 @@ export default function AppOthersNavigator() {
                 component={require('./SettingsSubScreensNavigator').default}
                 options={{ headerShown: false }}
             />
-            <Stack.Screen
-                name="OrderDetails"
-                component={require('@/screens/app/order-details').default}
-                options={{ title: 'Order Details' }}
-            />
         </Stack.Navigator>
     );
 }

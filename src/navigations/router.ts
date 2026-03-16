@@ -69,4 +69,10 @@ export const router = {
             navigationRef.reset({ index: 0, routes: [] });
         }
     },
+    canGoback: () => {
+        if (navigationRef.isReady()) {
+            return navigationRef.canGoBack();
+        }
+        return false;
+    },
 };
