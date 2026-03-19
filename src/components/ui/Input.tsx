@@ -6,6 +6,7 @@ import {
     TextInputProps,
     StyleSheet,
     Text,
+    TextStyle,
     View,
     ViewStyle,
     Pressable,
@@ -21,6 +22,8 @@ interface Props extends TextInputProps {
     label?: string;
     error?: string;
     containerStyle?: ViewStyle;
+    inputWrapperStyle?: ViewStyle;
+    inputStyle?: TextStyle;
     prefixIcon?: LucideIcon;
     iconSize?: number;
 }
@@ -29,6 +32,8 @@ export default function Input({
     label,
     error,
     containerStyle,
+    inputWrapperStyle,
+    inputStyle,
     onFocus,
     onBlur,
     prefixIcon: PrefixIcon,
@@ -39,6 +44,7 @@ export default function Input({
     const focused = useSharedValue(0);
     const [showPassword, setShowPassword] = useState(false);
     const hasError = !!error;
+    const isMultiline = !!props.multiline;
 
     const animatedBorder = useAnimatedStyle(() => ({
         borderColor: interpolateColor(
@@ -72,7 +78,14 @@ export default function Input({
                     {label}
                 </Animated.Text>
             )}
-            <Animated.View style={[styles.inputWrapper, animatedBorder]}>
+            <Animated.View
+                style={[
+                    styles.inputWrapper,
+                    animatedBorder,
+                    isMultiline && styles.multilineWrapper,
+                    inputWrapperStyle,
+                ]}
+            >
                 {/* Prefix Icon */}
                 {PrefixIcon && (
                     <View style={styles.iconLeft}>
@@ -83,8 +96,10 @@ export default function Input({
                 <TextInput
                     style={[
                         styles.input,
+                        isMultiline && styles.multilineInput,
                         PrefixIcon && styles.inputWithPrefixIcon,
                         secureTextEntry && styles.inputWithSuffixIcon,
+                        inputStyle,
                     ]}
                     placeholderTextColor={colors.textTertiary}
                     secureTextEntry={secureTextEntry && !showPassword}
@@ -131,11 +146,22 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
     },
+    multilineWrapper: {
+        minHeight: 92,
+        height: 92,
+        alignItems: 'flex-start',
+    },
     input: {
         flex: 1,
         fontSize: 15,
         color: colors.text,
         paddingHorizontal: 14,
+    },
+    multilineInput: {
+        textAlignVertical: 'top',
+        width: '100%',
+        paddingTop: 12,
+        paddingBottom: 12,
     },
     inputWithPrefixIcon: {
         paddingLeft: 40,

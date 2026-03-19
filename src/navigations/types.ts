@@ -50,8 +50,11 @@ export type OrderStackParamList = {
 
 export type AppOthersStackParamList = {
     NotificationScreen: undefined;
+    FilterScreen: undefined;
     HomeSubScreens: NavigatorScreenParams<HomeSubScreensStackParamList>;
     SettingsSubScreens: NavigatorScreenParams<SettingsSubScreensStackParamList>;
+    ChatsListScreen: undefined;
+    ChatScreen: { chatId: string; vendorName: string };
 };
 
 export type HomeSubScreensStackParamList = {
@@ -69,6 +72,7 @@ export type SettingsSubScreensStackParamList = {
     Profile: undefined;
     PersonalInformation: undefined;
     SavedAddresses: undefined;
+    AddressForm: { id?: string } | undefined;
     MyWishList: undefined;
     MyReviews: undefined;
 };

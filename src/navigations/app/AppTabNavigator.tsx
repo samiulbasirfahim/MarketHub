@@ -18,6 +18,7 @@ export default function AppTabNavigator() {
     return (
         <Tab.Navigator
             tabBarPosition="bottom"
+            backBehavior="history"
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ color }) => getIcon(route.name, color),
                 tabBarLabelStyle: {
@@ -25,6 +26,7 @@ export default function AppTabNavigator() {
                     fontSize: 13,
                     fontWeight: '500',
                 },
+                animationEnabled: false,
                 tabBarActiveTintColor: colors.primary,
                 tabBarInactiveTintColor: colors.textSecondary,
                 tabBarShowIcon: true,

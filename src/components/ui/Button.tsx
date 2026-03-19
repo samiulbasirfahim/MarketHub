@@ -9,7 +9,7 @@ import { LucideIcon } from 'lucide-react-native';
 import Pressable from './Pressable';
 import { colors } from '@/constants/colors';
 
-type Variant = 'primary' | 'secondary' | 'ghost' | 'danger';
+type Variant = 'primary' | 'secondary' | 'ghost' | 'danger' | 'outline';
 type Size = 'sm' | 'md' | 'lg';
 
 interface Props {
@@ -36,6 +36,7 @@ const iconColor: Record<Variant, string> = {
     secondary: colors.secondaryForeground,
     ghost: colors.text,
     danger: colors.errorLight,
+    outline: colors.primary,
 };
 
 export default function Button({
@@ -132,6 +133,11 @@ const styles = StyleSheet.create({
         borderColor: colors.surface,
     },
     danger: { backgroundColor: colors.error },
+    outline: {
+        backgroundColor: colors.background,
+        borderWidth: 1,
+        borderColor: colors.primary,
+    },
 
     // ─── Sizes ──────────────────────────────────────────────
     sm: { height: 38, paddingHorizontal: 16 },
@@ -144,4 +150,5 @@ const styles = StyleSheet.create({
     secondaryLabel: { color: colors.secondaryForeground },
     ghostLabel: { color: colors.text },
     dangerLabel: { color: colors.errorLight },
+    outlineLabel: { color: colors.primary },
 });

@@ -3,6 +3,7 @@ import { Image, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { colors } from '@/constants/colors';
 import Text from '@/components/ui/Text';
+import { ScreenHeader } from '@/components/common/screen-header';
 
 export default function ProfileScreen() {
     const navigation = useNavigation<any>();
@@ -11,9 +12,7 @@ export default function ProfileScreen() {
         <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
             <View style={styles.card}>
                 <View style={styles.rowBetween}>
-                    <Text variant="secondary" weight="bold" style={styles.title}>
-                        Personal Information
-                    </Text>
+                    <ScreenHeader title="Personal Information" />
                     <Pressable
                         onPress={() => navigation.navigate('PersonalInformation')}
                         hitSlop={8}
@@ -26,7 +25,9 @@ export default function ProfileScreen() {
 
                 <View style={styles.avatarWrap}>
                     <Image
-                        source={{ uri: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Akash' }}
+                        source={{
+                            uri: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Akash',
+                        }}
                         style={styles.avatarCircle}
                     />
                 </View>
@@ -68,9 +69,7 @@ export default function ProfileScreen() {
             </View>
 
             <View style={styles.card}>
-                <Text variant="secondary" weight="bold" style={styles.title}>
-                    Quick Stats
-                </Text>
+                <ScreenHeader title="Personal Information" />
                 <View style={styles.statRow}>
                     <Text variant="body" style={styles.statLabel}>
                         Total Orders
@@ -113,10 +112,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-    },
-    title: {
-        fontSize: 20,
-        color: '#1A243A',
     },
     editText: {
         color: colors.primary,

@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-import {
-    StyleSheet,
-    View,
-    useWindowDimensions,
-    Pressable,
-} from 'react-native';
+import { StyleSheet, View, useWindowDimensions, Pressable } from 'react-native';
 import { TabView, SceneMap } from 'react-native-tab-view';
 import { colors } from '@/constants/colors';
 import Text from '@/components/ui/Text';
@@ -41,12 +36,15 @@ export default function OrdersScreen() {
                 onIndexChange={setIndex}
                 initialLayout={{ width: layout.width }}
                 renderTabBar={() => (
-                    <View style={styles.tabBarOuterContainer}>
+                    <View style={styles.tabBarOuter}>
                         <View style={styles.tabBar}>
                             {routes.map((route, i) => (
                                 <Pressable
                                     key={route.key}
-                                    style={styles.tabButtonWrap}
+                                    style={[
+                                        styles.tabButton,
+                                        index === i && styles.tabButtonActive,
+                                    ]}
                                     onPress={() => setIndex(i)}
                                 >
                                     <Text
@@ -59,9 +57,6 @@ export default function OrdersScreen() {
                                     >
                                         {route.title}
                                     </Text>
-                                    {index === i && (
-                                        <View style={styles.tabIndicator} />
-                                    )}
                                 </Pressable>
                             ))}
                         </View>
@@ -84,12 +79,6 @@ const styles = StyleSheet.create({
         borderBottomColor: colors.border,
         backgroundColor: colors.background,
     },
-    tabBar: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingHorizontal: 12,
-        paddingVertical: 12,
-    },
     tabButtonWrap: {
         flex: 1,
         alignItems: 'center',
@@ -97,19 +86,45 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         position: 'relative',
     },
-    tabLabel: {
-        color: colors.textSecondary,
-        fontSize: 14,
-    },
-    tabLabelActive: {
-        color: colors.primary,
-        fontWeight: '600',
-    },
     tabIndicator: {
         position: 'absolute',
         bottom: 0,
         width: '100%',
         height: 3,
         backgroundColor: colors.primary,
+    },
+
+    tabBarOuter: {
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        backgroundColor: colors.background,
+    },
+    tabBar: {
+        flexDirection: 'row',
+        backgroundColor: '#F0F0F5',
+        borderRadius: 14,
+        padding: 4,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.08,
+        shadowRadius: 8,
+        elevation: 3,
+    },
+    tabButton: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 8,
+        borderRadius: 10,
+    },
+    tabButtonActive: {
+        backgroundColor: colors.primary + '1A', // ~10% opacity tint
+    },
+    tabLabel: {
+        fontSize: 13,
+        color: colors.textSecondary,
+    },
+    tabLabelActive: {
+        color: colors.primary,
     },
 });

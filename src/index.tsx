@@ -5,6 +5,7 @@ import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Host } from 'react-native-portalize';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 export default function App() {
     return (
@@ -12,9 +13,11 @@ export default function App() {
             <GestureHandlerRootView style={{ flex: 1 }}>
                 <SafeAreaProvider>
                     <KeyboardProvider statusBarTranslucent>
-                        <Host>
-                            <RootNavigator />
-                        </Host>
+                        <BottomSheetModalProvider>
+                            <Host>
+                                <RootNavigator />
+                            </Host>
+                        </BottomSheetModalProvider>
                     </KeyboardProvider>
                 </SafeAreaProvider>
             </GestureHandlerRootView>

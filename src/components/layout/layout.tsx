@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import { StyleSheet, ViewStyle } from 'react-native';
+import { StyleSheet, View, ViewStyle } from 'react-native';
 import {
     KeyboardAwareScrollView,
     KeyboardAwareScrollViewProps,
@@ -34,14 +34,38 @@ export function Layout({
     ...props
 }: LayoutProps) {
     const { top, bottom } = useSafeAreaInsets();
-
     const paddingTop = noPadding ? 0 : includeTopInset ? top + 16 : 16;
     const paddingBottom = noPadding
         ? 0
         : (includeBottomInset ? bottom : 0) + (bottomPadding ? 120 : 16);
+    const paddingHorizontal = noPadding ? 0 : horizontalPadding;
+
+    const sharedStyle = {
+        paddingTop,
+        paddingBottom,
+        paddingHorizontal,
+        backgroundColor,
+    };
+
+    if (props.scrollEnabled === false) {
+        return (
+            <View
+                style={[
+                    styles.view,
+                    sharedStyle,
+                    centered && { alignItems: 'center' },
+                    verticalCenter && { justifyContent: 'center' },
+                    style,
+                ]}
+            >
+                {children}
+            </View>
+        );
+    }
 
     return (
         <KeyboardAwareScrollView
+            nestedScrollEnabled
             keyboardDismissMode="interactive"
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
@@ -53,7 +77,7 @@ export function Layout({
                 {
                     paddingTop,
                     paddingBottom,
-                    paddingHorizontal: noPadding ? 0 : horizontalPadding,
+                    paddingHorizontal,
                     alignItems: centered ? 'center' : 'flex-start',
                     justifyContent: verticalCenter ? 'center' : 'flex-start',
                 },
@@ -71,6 +95,10 @@ const styles = StyleSheet.create({
     },
     content: {
         flexGrow: 1,
+        gap: 16,
+    },
+    view: {
+        flex: 1,
         gap: 16,
     },
 });

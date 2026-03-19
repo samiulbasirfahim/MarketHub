@@ -23,6 +23,13 @@ export default function SettingsSubScreensNavigator() {
                 options={{ title: 'Saved Addresses' }}
             />
             <Stack.Screen
+                name="AddressForm"
+                component={require('@/screens/app/settings/address-form').default}
+                options={({ route }) => ({
+                    title: route.params?.id ? 'Edit Address' : 'Add Address',
+                })}
+            />
+            <Stack.Screen
                 name="MyWishList"
                 component={require('@/screens/app/settings/my-wishlist').default}
                 options={{ title: 'My Wishlist' }}

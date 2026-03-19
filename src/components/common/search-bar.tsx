@@ -6,16 +6,17 @@ import {
     TextInputProps,
     View,
 } from 'react-native';
-import { Search, SlidersHorizontal } from 'lucide-react-native';
+import { LucideIcon, Search, SlidersHorizontal } from 'lucide-react-native';
 import { colors } from '@/constants/colors';
 
 interface Props extends TextInputProps {
     onFilterPress?: () => void;
     /** When set, the entire input becomes a tap target (no keyboard) */
     onPress?: () => void;
+    prefixIcon?: LucideIcon;
 }
 
-export function SearchBar({ onFilterPress, onPress, ...props }: Props) {
+export function SearchBar({ onFilterPress, onPress, prefixIcon: PrefixIcon = Search, ...props }: Props) {
     const isReadOnly = !!onPress;
 
     return (
@@ -25,7 +26,7 @@ export function SearchBar({ onFilterPress, onPress, ...props }: Props) {
                 onPress={onPress}
                 pointerEvents={isReadOnly ? 'box-only' : 'auto'}
             >
-                <Search size={18} color={colors.textTertiary} />
+                <PrefixIcon size={18} color={colors.textTertiary} />
                 <TextInput
                     style={styles.input}
                     placeholder="Search for any product...."

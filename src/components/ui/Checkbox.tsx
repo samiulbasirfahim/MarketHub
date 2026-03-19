@@ -3,10 +3,8 @@ import { Pressable, StyleSheet } from 'react-native';
 import Animated, {
     useSharedValue,
     useAnimatedStyle,
-    withSpring,
     withTiming,
     interpolateColor,
-    Easing,
 } from 'react-native-reanimated';
 import { Check } from 'lucide-react-native';
 import { colors } from '@/constants/colors';
@@ -18,8 +16,6 @@ interface Props {
     size?: number;
 }
 
-const SPRING = { damping: 15, stiffness: 300, mass: 0.8 };
-
 export default function Checkbox({
     value,
     onValueChange,
@@ -27,13 +23,11 @@ export default function Checkbox({
     size = 22,
 }: Props) {
     const progress = useSharedValue(value ? 1 : 0);
-    const scale = useSharedValue(1);
 
     React.useEffect(() => {
-        progress.value = withSpring(value ? 1 : 0, SPRING);
+        progress.value = withTiming(value ? 1 : 0, { duration: 120 });
     }, [value]);
 
-    // ─── Box background + border ──────────────────────────────
     const boxStyle = useAnimatedStyle(() => ({
         backgroundColor: interpolateColor(
             progress.value,
@@ -45,30 +39,16 @@ export default function Checkbox({
             [0, 1],
             [colors.border, colors.primary],
         ),
-        transform: [{ scale: scale.value }],
         opacity: disabled ? 0.5 : 1,
     }));
 
-    // ─── Check icon scale + opacity ───────────────────────────
     const checkStyle = useAnimatedStyle(() => ({
-        opacity: withTiming(progress.value, {
-            duration: 150,
-            easing: Easing.out(Easing.ease),
-        }),
-        transform: [
-            {
-                scale: withSpring(progress.value === 1 ? 1 : 0.5, SPRING),
-            },
-        ],
+        opacity: progress.value,
+        transform: [{ scale: 0.92 + progress.value * 0.08 }],
     }));
 
     const handlePress = () => {
         if (disabled) return;
-
-        // pop animation on press
-        scale.value = withSpring(0.85, SPRING, () => {
-            scale.value = withSpring(1, SPRING);
-        });
 
         onValueChange(!value);
     };

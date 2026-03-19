@@ -51,7 +51,6 @@ export default function SearchScreen() {
                     <Search size={16} color={colors.textTertiary} />
                     <TextInput
                         ref={inputRef}
-                        autoFocus
                         value={query}
                         onChangeText={setQuery}
                         placeholder="Search...."
@@ -66,7 +65,15 @@ export default function SearchScreen() {
                     )}
                 </View>
 
-                <Pressable style={styles.filterBtn}>
+                <Pressable
+                    style={styles.filterBtn}
+                    onPress={() =>
+                        router.push('App', {
+                            screen: 'OthersStack',
+                            params: { screen: 'FilterScreen' },
+                        })
+                    }
+                >
                     <SlidersHorizontal size={18} color={colors.text} strokeWidth={2} />
                 </Pressable>
             </View>

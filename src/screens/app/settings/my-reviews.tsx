@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { FlatList, Image, Pressable, StyleSheet, View } from 'react-native';
+import {
+    FlatList,
+    Image,
+    Pressable,
+    StyleSheet,
+    View,
+    useWindowDimensions,
+} from 'react-native';
+import { SceneMap, TabView } from 'react-native-tab-view';
 import { ThumbsUp, ThumbsDown } from 'lucide-react-native';
 import { colors } from '@/constants/colors';
 import Text from '@/components/ui/Text';
@@ -22,43 +30,38 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.background,
     },
-    tabBarOuterContainer: {
-        borderBottomWidth: 1,
-        borderBottomColor: colors.border,
-        marginHorizontal: 12,
-        marginVertical: 12,
-        borderRadius: 10,
-    },
-    tabBarContainer: {
-        flexDirection: 'row',
+    tabBarOuter: {
+        paddingHorizontal: 16,
+        paddingVertical: 12,
         backgroundColor: colors.background,
-        borderRadius: 10,
-        overflow: 'hidden',
+    },
+    tabBar: {
+        flexDirection: 'row',
+        backgroundColor: '#F0F0F5',
+        borderRadius: 14,
+        padding: 4,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.08,
+        shadowRadius: 8,
+        elevation: 3,
     },
     tabButton: {
         flex: 1,
-        paddingVertical: 12,
-        paddingHorizontal: 16,
         alignItems: 'center',
         justifyContent: 'center',
-        position: 'relative',
+        paddingVertical: 8,
+        borderRadius: 10,
     },
-    tabText: {
+    tabButtonActive: {
+        backgroundColor: colors.primary + '1A',
+    },
+    tabLabel: {
+        fontSize: 13,
         color: colors.textSecondary,
-        fontSize: 14,
     },
-    tabTextActive: {
-        color: colors.text,
-        fontSize: 14,
-        fontWeight: '600',
-    },
-    tabIndicator: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        height: 3,
-        backgroundColor: colors.primary,
+    tabLabelActive: {
+        color: colors.primary,
     },
     list: {
         padding: 12,
@@ -66,38 +69,33 @@ const styles = StyleSheet.create({
         paddingBottom: 30,
     },
     card: {
-        backgroundColor: '#F0F4FB',
+        backgroundColor: colors.surface,
         borderRadius: 10,
         borderWidth: 1,
-        borderColor: '#DCE3F2',
+        borderColor: colors.border,
         padding: 12,
-        gap: 8,
-    },
-    deliveredSection: {
-        paddingBottom: 4,
+        gap: 7,
     },
     deliveredText: {
         fontSize: 14,
         color: colors.text,
     },
     orderNumber: {
-        color: '#6D7C97',
+        color: colors.textSecondary,
         fontSize: 12,
     },
     divider: {
         height: 1,
-        backgroundColor: '#DCE3F2',
-        marginVertical: 6,
+        backgroundColor: colors.border,
     },
     itemRow: {
         flexDirection: 'row',
         gap: 10,
         alignItems: 'center',
-        paddingVertical: 8,
     },
     itemImage: {
-        width: 70,
-        height: 70,
+        width: 80,
+        height: 80,
         borderRadius: 8,
         backgroundColor: '#FFD700',
         flexShrink: 0,
@@ -125,13 +123,9 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
     reviewBtn: {
+        alignSelf: 'flex-start',
         borderRadius: 20,
         flexShrink: 0,
-    },
-    reviewRow: {
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        marginTop: 2,
     },
     timestamp: {
         color: '#6D7C97',
@@ -177,201 +171,195 @@ const styles = StyleSheet.create({
     },
 });
 
-type Tab = 'ToReview' | 'History';
+const ToReviewRoute = () => (
+    <FlatList
+        data={REVIEWS_TO_DO}
+        keyExtractor={item => item.id}
+        contentContainerStyle={styles.list}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item }) => (
+            <View style={styles.card}>
+                <View>
+                    <Text variant="body" weight="semibold" style={styles.deliveredText}>
+                        Delivered
+                    </Text>
+                    <Text variant="label" style={styles.orderNumber}>
+                        Order #{item.id}
+                    </Text>
+                </View>
+
+                <View style={styles.divider} />
+
+                <View style={styles.itemRow}>
+                    <Image
+                        source={{ uri: item.image }}
+                        style={styles.itemImage}
+                        resizeMode="contain"
+                    />
+                    <View style={styles.itemContent}>
+                        <Text
+                            variant="body"
+                            weight="semibold"
+                            style={styles.itemName}
+                            numberOfLines={1}
+                        >
+                            {item.name}
+                        </Text>
+                        <View style={styles.itemMeta}>
+                            <Text variant="label" style={styles.metaText}>
+                                By Mr.food
+                            </Text>
+                            <Text variant="label" style={styles.metaText}>
+                                Qty: 1
+                            </Text>
+                            <Text variant="body" weight="bold" style={styles.price}>
+                                ${item.price.toFixed(2)}
+                            </Text>
+                        </View>
+
+                        <Button
+                            label="Review"
+                            onPress={() => { }}
+                            size="sm"
+                            style={styles.reviewBtn}
+                        />
+                    </View>
+                </View>
+            </View>
+        )}
+    />
+);
+
+const HistoryRoute = () => (
+    <FlatList
+        data={REVIEWS_HISTORY}
+        keyExtractor={item => item.id}
+        contentContainerStyle={styles.list}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item }: any) => (
+            <View style={styles.card}>
+                <View style={styles.deliveredSection}>
+                    <Text variant="body" weight="semibold" style={styles.deliveredText}>
+                        Delivered
+                    </Text>
+                    <Text variant="label" style={styles.orderNumber}>
+                        Order #{item.id}
+                    </Text>
+                </View>
+
+                <View style={styles.divider} />
+
+                <View style={styles.itemRow}>
+                    <Image
+                        source={{ uri: item.image }}
+                        style={styles.itemImage}
+                        resizeMode="contain"
+                    />
+                    <View style={styles.itemContent}>
+                        <Text
+                            variant="body"
+                            weight="semibold"
+                            style={styles.itemName}
+                            numberOfLines={1}
+                        >
+                            {item.name}
+                        </Text>
+                        <View style={styles.itemMeta}>
+                            <Text variant="label" style={styles.metaText}>
+                                By Mr.food
+                            </Text>
+                            <Text variant="label" style={styles.metaText}>
+                                Qty: 1
+                            </Text>
+                            <Text variant="body" weight="bold" style={styles.price}>
+                                ${item.price.toFixed(2)}
+                            </Text>
+                        </View>
+                    </View>
+                </View>
+
+                <Text variant="label" style={styles.timestamp}>
+                    {item.timestamp}
+                </Text>
+
+                <StarRating rating={item.rating} size={16} />
+
+                <Text variant="body" style={styles.reviewText}>
+                    {item.review}
+                </Text>
+
+                <View style={styles.actionRow}>
+                    <Pressable style={styles.likeButton}>
+                        <ThumbsUp size={16} color={colors.primary} fill={colors.primary} />
+                        <Text variant="caption" style={styles.likeText}>
+                            {item.likes}
+                        </Text>
+                    </Pressable>
+                    <Pressable style={styles.dislikeButton}>
+                        <ThumbsDown size={16} color={colors.textSecondary} />
+                    </Pressable>
+                </View>
+
+                <View style={styles.imagesRow}>
+                    {new Array(3).fill(0).map((_, i) => (
+                        <View key={`img-${i}`} style={styles.imagePlaceholder} />
+                    ))}
+                </View>
+            </View>
+        )}
+    />
+);
+
+const renderScene = SceneMap({
+    toReview: ToReviewRoute,
+    history: HistoryRoute,
+});
+
+const routes = [
+    { key: 'toReview', title: 'To Review' },
+    { key: 'history', title: 'History' },
+];
 
 export default function MyReviewsScreen() {
-    const [activeTab, setActiveTab] = useState<Tab>('ToReview');
+    const layout = useWindowDimensions();
+    const [index, setIndex] = useState(0);
 
     return (
         <View style={styles.screen}>
-            {/* Tab Bar with Border Wrapper */}
-            <View style={styles.tabBarOuterContainer}>
-                <View style={styles.tabBarContainer}>
-                    <Pressable
-                        style={styles.tabButton}
-                        onPress={() => setActiveTab('ToReview')}
-                    >
-                        <Text
-                            variant="label"
-                            weight="semibold"
-                            style={
-                                activeTab === 'ToReview'
-                                    ? styles.tabTextActive
-                                    : styles.tabText
-                            }
-                        >
-                            To Review
-                        </Text>
-                        {activeTab === 'ToReview' && (
-                            <View style={styles.tabIndicator} />
-                        )}
-                    </Pressable>
-                    <Pressable
-                        style={styles.tabButton}
-                        onPress={() => setActiveTab('History')}
-                    >
-                        <Text
-                            variant="label"
-                            weight="semibold"
-                            style={
-                                activeTab === 'History'
-                                    ? styles.tabTextActive
-                                    : styles.tabText
-                            }
-                        >
-                            History
-                        </Text>
-                        {activeTab === 'History' && (
-                            <View style={styles.tabIndicator} />
-                        )}
-                    </Pressable>
-                </View>
-            </View>
-
-            {/* Content */}
-            {activeTab === 'ToReview' ? (
-                <FlatList
-                    data={REVIEWS_TO_DO}
-                    keyExtractor={item => item.id}
-                    contentContainerStyle={styles.list}
-                    showsVerticalScrollIndicator={false}
-                    renderItem={({ item }) => (
-                        <View style={styles.card}>
-                            <View style={styles.deliveredSection}>
-                                <Text variant="body" weight="semibold" style={styles.deliveredText}>
-                                    Delivered
-                                </Text>
-                            </View>
-
-                            <Text variant="label" style={styles.orderNumber}>
-                                Order #{item.id}
-                            </Text>
-
-                            <View style={styles.divider} />
-
-                            <View style={styles.itemRow}>
-                                <Image
-                                    source={{ uri: item.image }}
-                                    style={styles.itemImage}
-                                    resizeMode="contain"
-                                />
-                                <View style={styles.itemContent}>
+            <TabView
+                navigationState={{ index, routes }}
+                renderScene={renderScene}
+                onIndexChange={setIndex}
+                initialLayout={{ width: layout.width }}
+                renderTabBar={() => (
+                    <View style={styles.tabBarOuter}>
+                        <View style={styles.tabBar}>
+                            {routes.map((route, i) => (
+                                <Pressable
+                                    key={route.key}
+                                    style={[
+                                        styles.tabButton,
+                                        index === i && styles.tabButtonActive,
+                                    ]}
+                                    onPress={() => setIndex(i)}
+                                >
                                     <Text
-                                        variant="body"
-                                        weight="semibold"
-                                        style={styles.itemName}
-                                        numberOfLines={1}
+                                        variant="label"
+                                        style={[
+                                            styles.tabLabel,
+                                            index === i && styles.tabLabelActive,
+                                        ]}
                                     >
-                                        {item.name}
-                                    </Text>
-                                    <View style={styles.itemMeta}>
-                                        <Text variant="label" style={styles.metaText}>
-                                            By Mr.food
-                                        </Text>
-                                        <Text variant="label" style={styles.metaText}>
-                                            Qty: 1
-                                        </Text>
-                                        <Text variant="body" weight="bold" style={styles.price}>
-                                            ${item.price.toFixed(2)}
-                                        </Text>
-                                    </View>
-                                </View>
-                            </View>
-
-                            <View style={styles.reviewRow}>
-                                <Button
-                                    label="Review"
-                                    onPress={() => {}}
-                                    size="sm"
-                                    style={styles.reviewBtn}
-                                />
-                            </View>
-                        </View>
-                    )}
-                />
-            ) : (
-                <FlatList
-                    data={REVIEWS_HISTORY}
-                    keyExtractor={item => item.id}
-                    contentContainerStyle={styles.list}
-                    showsVerticalScrollIndicator={false}
-                    renderItem={({ item }: any) => (
-                        <View style={styles.card}>
-                            <View style={styles.deliveredSection}>
-                                <Text variant="body" weight="semibold" style={styles.deliveredText}>
-                                    Delivered
-                                </Text>
-                            </View>
-
-                            <Text variant="label" style={styles.orderNumber}>
-                                Order #{item.id}
-                            </Text>
-
-                            <View style={styles.divider} />
-
-                            <View style={styles.itemRow}>
-                                <Image
-                                    source={{ uri: item.image }}
-                                    style={styles.itemImage}
-                                    resizeMode="contain"
-                                />
-                                <View style={styles.itemContent}>
-                                    <Text
-                                        variant="body"
-                                        weight="semibold"
-                                        style={styles.itemName}
-                                        numberOfLines={1}
-                                    >
-                                        {item.name}
-                                    </Text>
-                                    <View style={styles.itemMeta}>
-                                        <Text variant="label" style={styles.metaText}>
-                                            By Mr.food
-                                        </Text>
-                                        <Text variant="label" style={styles.metaText}>
-                                            Qty: 1
-                                        </Text>
-                                        <Text variant="body" weight="bold" style={styles.price}>
-                                            ${item.price.toFixed(2)}
-                                        </Text>
-                                    </View>
-                                </View>
-                            </View>
-
-                            <Text variant="label" style={styles.timestamp}>
-                                {item.timestamp}
-                            </Text>
-
-                            <StarRating rating={item.rating} size={16} />
-
-                            <Text variant="body" style={styles.reviewText}>
-                                {item.review}
-                            </Text>
-
-                            <View style={styles.actionRow}>
-                                <Pressable style={styles.likeButton}>
-                                    <ThumbsUp size={16} color={colors.primary} fill={colors.primary} />
-                                    <Text variant="caption" style={styles.likeText}>
-                                        {item.likes}
+                                        {route.title}
                                     </Text>
                                 </Pressable>
-                                <Pressable style={styles.dislikeButton}>
-                                    <ThumbsDown size={16} color={colors.textSecondary} />
-                                </Pressable>
-                            </View>
-
-                            <View style={styles.imagesRow}>
-                                {new Array(3).fill(0).map((_, i) => (
-                                    <View
-                                        key={`img-${i}`}
-                                        style={styles.imagePlaceholder}
-                                    />
-                                ))}
-                            </View>
+                            ))}
                         </View>
-                    )}
-                />
-            )}
+                    </View>
+                )}
+                swipeEnabled
+                animationEnabled
+            />
         </View>
     );
 }

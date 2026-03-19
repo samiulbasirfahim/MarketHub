@@ -1,3 +1,10 @@
+import {
+    Phone,
+    Laptop,
+    Headphones,
+    Cable,
+    HardDrive,
+} from 'lucide-react-native';
 import { Category } from '@/components/common/category-card';
 import { Product } from '@/components/common/product-card';
 
@@ -178,21 +185,40 @@ export const MOCK_BEST_DEALS: Product[] = [
     },
 ];
 
+export enum Gender {
+    Male,
+    Female,
+}
+
 export type Vendor = {
     id: string;
     name: string;
     since: number;
+    gender: Gender;
+    email: string;
+    phone: string;
     productCount: number;
     rating: number;
     reviewCount: number;
     image: string;
 };
 
+export const OPTIONS = [
+    { label: 'Phone', value: 'phone', icon: Phone },
+    { label: 'Laptop', value: 'laptop', icon: Laptop },
+    { label: 'Airpods', value: 'airpods', icon: Headphones },
+    { label: 'Cable', value: 'cable', icon: Cable },
+    { label: 'Hard disk', value: 'harddisk', icon: HardDrive },
+];
+
 export const MOCK_VENDORS: Vendor[] = [
     {
         id: 'v1',
         name: 'Just Look',
         since: 2023,
+        email: 'test@mail.com',
+        phone: '123-456-7890',
+        gender: Gender.Male,
         productCount: 6,
         rating: 4.5,
         reviewCount: 100,
@@ -202,6 +228,9 @@ export const MOCK_VENDORS: Vendor[] = [
         id: 'v2',
         name: 'Innovative',
         since: 2023,
+        email: 'test2@mail.com',
+        phone: '987-654-3210',
+        gender: Gender.Female,
         productCount: 15,
         rating: 4.5,
         reviewCount: 200,
@@ -211,19 +240,13 @@ export const MOCK_VENDORS: Vendor[] = [
         id: 'v3',
         name: 'Creative',
         since: 2023,
+        email: 'test3@gmail.com',
+        phone: '555-123-4567',
+        gender: Gender.Male,
         productCount: 8,
         rating: 4.5,
         reviewCount: 150,
         image: 'https://images.unsplash.com/photo-1642737651261-a0db5f76f4f5?w=400',
-    },
-    {
-        id: 'v4',
-        name: 'Explore More',
-        since: 2023,
-        productCount: 8,
-        rating: 4.5,
-        reviewCount: 150,
-        image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400',
     },
 ];
 
